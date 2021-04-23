@@ -27,9 +27,12 @@ public class Compte {
 	@Column
 	private String username;
 
-    @Column
+	@Column
 	private String password;
-	
+
+	@Column
+	private String profil;
+
 	@OneToOne
 	private Etudiant etudiant;
 
@@ -59,16 +62,20 @@ public class Compte {
 		return password;
 	}
 
+	public String getProfil() {
+		return profil;
+	}
+
+	public Etudiant getEtudiant() {
+		return etudiant;
+	}
+
 	public Date getCreatedAt() {
 		return createdAt;
 	}
 
 	public Date getUpdatedAt() {
 		return updatedAt;
-	}
-
-	public Etudiant getEtudiant() {
-		return etudiant;
 	}
 
 	public void setId(int id) {
@@ -87,6 +94,14 @@ public class Compte {
 		this.password = password;
 	}
 
+	public void setProfil(String profil) {
+		this.profil = profil;
+	}
+
+	public void setEtudiant(Etudiant etudiant) {
+		this.etudiant = etudiant;
+	}
+
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
@@ -94,11 +109,5 @@ public class Compte {
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
-
-	public void setEtudiant(Etudiant etudiant) {
-		this.etudiant = etudiant;
-	}
-	
-	
 
 }

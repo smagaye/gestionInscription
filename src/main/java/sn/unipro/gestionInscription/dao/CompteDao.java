@@ -1,9 +1,7 @@
 package sn.unipro.gestionInscription.dao;
 
 import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import javax.persistence.Query;
 
 import sn.unipro.gestionInscription.modeles.Compte;
 import sn.unipro.gestionInscription.util.JPAUtil;
@@ -33,14 +31,10 @@ public class CompteDao {
 	}
 
 	public Compte login(String username, String password) {
-		CriteriaBuilder builder = entityMgr.getCriteriaBuilder();
-
-		CriteriaQuery<Compte> criteria = builder.createQuery(Compte.class);
-		Root<Compte> root = criteria.from(Compte.class);
-		criteria.select(root);
-		criteria.where(builder.and(builder.equal(root.get("username"), username),
-				builder.equal(root.get("password"), password)));
-		return entityMgr.createQuery(criteria).getSingleResult();
+		Query query = entityMgr.createQuery("FROM Compte where username=:username and password=:password");
+		query.setParameter("username", username);
+		query.setParameter("password", password);
+		return (Compte) query.getSingleResult();
 	}
 
 }
