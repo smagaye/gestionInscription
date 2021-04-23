@@ -33,6 +33,12 @@ public class GestionInscriptionStart {
 		compte.setEtudiant(etudiantDao.findById(1));
 		compteDao.save(compte);
 		
+		compte = new Compte();
+		compte.setUsername("admin");
+		compte.setEmail("admin@unipro.sn");
+		compte.setPassword("1234");
+		compteDao.save(compte);
+		
 		compteDao.login("fallou.camara", "1234");
 	}
 

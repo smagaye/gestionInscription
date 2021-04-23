@@ -29,7 +29,7 @@ public class Mensualite implements Serializable {
 	@Column(nullable=false)
 	private Mois mois;
 
-	@Column
+	@Column(nullable = false)
 	private double montant;
 
 	// bi-directional many-to-one association to Inscription

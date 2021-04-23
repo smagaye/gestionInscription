@@ -21,15 +21,15 @@ public class Compte {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Column
+	@Column(nullable = false, unique = true)
 	private String email;
 
-	@Column
+	@Column(nullable = false, unique = true)
 	private String username;
 
-    @Column
+	@Column
 	private String password;
-	
+
 	@OneToOne
 	private Etudiant etudiant;
 
@@ -98,7 +98,5 @@ public class Compte {
 	public void setEtudiant(Etudiant etudiant) {
 		this.etudiant = etudiant;
 	}
-	
-	
 
 }

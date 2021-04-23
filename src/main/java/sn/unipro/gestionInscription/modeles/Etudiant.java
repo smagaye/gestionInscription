@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -42,13 +43,13 @@ public class Etudiant {
 	@Column
 	private String lieuNaissance;
 
-	@Column(nullable=false)
+	@Column(unique=true)
 	private String cni;
 
 	@Column
 	private String adresse;
 
-	@Column
+	@Column(unique=true)
 	private String telephone;
 
 	@Temporal(TemporalType.TIMESTAMP)

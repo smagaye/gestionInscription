@@ -22,10 +22,10 @@ public class Niveau implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Column
+	@Column(nullable = false, unique=true)
 	private String libelle;
 
-	@Column
+	@Column(nullable = false)
 	private int position;
 
 	@Temporal(TemporalType.TIMESTAMP)
