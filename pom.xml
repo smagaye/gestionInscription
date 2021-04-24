@@ -37,6 +37,14 @@
 			<version>5.1.40</version>
 		</dependency>
 		<!-- fin Persistences -->
+
+		<!-- Cryptage des données -->
+		<dependency>
+			<groupId>org.mindrot</groupId>
+			<artifactId>jbcrypt</artifactId>
+			<version>0.3m</version>
+		</dependency>
+		<!-- fin Cryptage des données -->
 	</dependencies>
 
 </project>
