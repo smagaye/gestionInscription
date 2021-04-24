@@ -19,8 +19,16 @@
 
 <h:body>
 
+	<div class="card">
+		<h:form>
+			<p:growl id="messages" />
 
-<h:outputText value="Hello world" />
-
+			<p:menubar>
+				<f:facet name="options">
+					<p:button outcome="/connexion" value="Se connecter" styleClass="ui-button-info" />
+				</f:facet>
+			</p:menubar>
+		</h:form>
+	</div>
 </h:body>
 </html>
