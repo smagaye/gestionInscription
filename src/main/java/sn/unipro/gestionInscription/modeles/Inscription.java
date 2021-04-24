@@ -30,7 +30,8 @@ public class Inscription implements Serializable {
 	private int annee;
 
 	@Column
-	private String dateInscription;
+	@Temporal(TemporalType.DATE)
+	private Date dateInscription;
 
 	@Column(nullable = false)
 	private double montant;
@@ -68,7 +69,7 @@ public class Inscription implements Serializable {
 		return annee;
 	}
 
-	public String getDateInscription() {
+	public Date getDateInscription() {
 		return dateInscription;
 	}
 
@@ -100,7 +101,7 @@ public class Inscription implements Serializable {
 		this.annee = annee;
 	}
 
-	public void setDateInscription(String dateInscription) {
+	public void setDateInscription(Date dateInscription) {
 		this.dateInscription = dateInscription;
 	}
 
