@@ -29,7 +29,6 @@ public class Inscription implements Serializable {
 	@Column(nullable = false)
 	private int annee;
 
-	@Temporal(TemporalType.TIMESTAMP)
 	@Column
 	@Temporal(TemporalType.DATE)
 	private Date dateInscription;
