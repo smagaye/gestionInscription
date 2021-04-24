@@ -6,15 +6,23 @@ import sn.unipro.gestionInscription.modeles.Compte;
 import sn.unipro.gestionInscription.modeles.Etudiant;
 import sn.unipro.gestionInscription.modeles.Profil;
 import sn.unipro.gestionInscription.modeles.Sexe;
+import sn.unipro.gestionInscription.security.Encryptage;
 import sn.unipro.gestionInscription.util.DateUtil;
 
+/**
+ * @author Smag
+ * @since 24 avril 2021
+ * @description Cette classe permet de tester en live des méthodes du projet.
+ * 
+ */
 public class GestionInscriptionStart {
-	
+
 	private static EtudiantDao etudiantDao = new EtudiantDao();
 	private static CompteDao compteDao = new CompteDao();
-	
+
 	public static void main(String[] args) {
 
+		// Enregistrement d'un étudiant dans la base de données
 		Etudiant etudiant = new Etudiant();
 		etudiant.setNom("Camara");
 		etudiant.setPrenom("Fallou");
@@ -26,26 +34,37 @@ public class GestionInscriptionStart {
 		etudiant.setDateNaissance(DateUtil.createDate(25, 04, 1987));
 		etudiant.setSexe(Sexe.fromCode('m'));
 		etudiantDao.save(etudiant);
-		
-		String password = "1234";
-		
+
+		// Mot de passe en clair pour les deux comptes à créer dans la base de données
+		String passwordEnclair = "1234";
+
+		// Enregistrement d'un compte étudiant et celui d'un admin dans la base de
+		// données
+		// Compte etudiant
 		Compte compte = new Compte();
 		compte.setUsername("fallou.camara");
 		compte.setEmail("fallou.camara@unipro.sn");
-		compte.setPassword(password);
+		compte.setPassword(passwordEnclair);
 		compte.setEtudiant(etudiantDao.findById(1));
 		compte.setProfil(Profil.fromCode("etu"));
 		compteDao.save(compte);
 
+		// Compte admin
 		compte = new Compte();
 		compte.setUsername("admin");
 		compte.setEmail("admin@unipro.sn");
-		compte.setPassword(password);
+		compte.setPassword(passwordEnclair);
 		compte.setProfil(Profil.fromCode("adm"));
 		compteDao.save(compte);
 
-		compteDao.login("fallou.camara", password);	
+		// Test pour vérifier dans labqse si le username et le mot de passe sont
+		// correctes
+		compteDao.login("fallou.camara", passwordEnclair);
 
+		// Test de la méthode de hachage des données
+		String passwordHashed = Encryptage.hashPassword(passwordEnclair);
+		// Vérification si le mode de passe haché correspond à celui en clair
+		Encryptage.checkPass(passwordEnclair, passwordHashed);
 	}
 
 }
