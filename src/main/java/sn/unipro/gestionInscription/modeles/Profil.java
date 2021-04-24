@@ -1,7 +1,7 @@
 package sn.unipro.gestionInscription.modeles;
 
 public enum Profil {
-	ETUIDIANT("etudiant"), ADMIN("admin");
+	ETUDIANT("etudiant"), ADMIN("admin");
 
 	private final String code;
 
@@ -11,11 +11,11 @@ public enum Profil {
 
 	public static Profil fromCode(String code) {
 		code = code.toLowerCase();
-		if ("etudiant".equals(code)) {
+		if ("etudiant".equals(code) || "etu".equals(code)) {
 			return ADMIN;
 		}
-		if ("admin".equals(code)) {
-			return ETUIDIANT;
+		if ("admin".equals(code) || "adm".equals(code)) {
+			return ETUDIANT;
 		}
 		throw new UnsupportedOperationException("The code " + code + " is not supported!");
 
