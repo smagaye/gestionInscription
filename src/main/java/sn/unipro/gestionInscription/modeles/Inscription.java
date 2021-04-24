@@ -26,14 +26,15 @@ public class Inscription implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Column
+	@Column(nullable = false)
 	private int annee;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column
+	@Temporal(TemporalType.DATE)
 	private Date dateInscription;
 
-	@Column
+	@Column(nullable = false)
 	private double montant;
 
 	// bi-directional many-to-one association to Etudiant

@@ -42,13 +42,13 @@ public class Etudiant {
 	@Column
 	private String lieuNaissance;
 
-	@Column(nullable=false)
+	@Column(unique=true)
 	private String cni;
 
 	@Column
 	private String adresse;
 
-	@Column
+	@Column(unique=true)
 	private String telephone;
 
 	@Temporal(TemporalType.TIMESTAMP)

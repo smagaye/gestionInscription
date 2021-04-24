@@ -20,7 +20,7 @@ public class Formation implements Serializable {
 	@Id
 	private int id;
 
-	@Column
+	@Column(nullable = false)
 	private String libelle;
 
 	@OneToOne
