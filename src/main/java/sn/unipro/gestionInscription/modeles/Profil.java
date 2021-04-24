@@ -12,10 +12,10 @@ public enum Profil {
 	public static Profil fromCode(String code) {
 		code = code.toLowerCase();
 		if ("etudiant".equals(code) || "etu".equals(code)) {
-			return ADMIN;
+			return ETUDIANT;
 		}
 		if ("admin".equals(code) || "adm".equals(code)) {
-			return ETUDIANT;
+			return ADMIN;
 		}
 		throw new UnsupportedOperationException("The code " + code + " is not supported!");
 
