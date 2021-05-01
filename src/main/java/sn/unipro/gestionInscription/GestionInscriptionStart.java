@@ -38,13 +38,16 @@ public class GestionInscriptionStart {
 		// Mot de passe en clair pour les deux comptes à créer dans la base de données
 		String passwordEnclair = "1234";
 
+		// Test de la méthode de hachage des données
+		String passwordHashed = Encryptage.hashPassword(passwordEnclair);
+		
 		// Enregistrement d'un compte étudiant et celui d'un admin dans la base de
 		// données
 		// Compte etudiant
 		Compte compte = new Compte();
 		compte.setUsername("fallou.camara");
 		compte.setEmail("fallou.camara@unipro.sn");
-		compte.setPassword(passwordEnclair);
+		compte.setPassword(passwordHashed);
 		compte.setEtudiant(etudiantDao.findById(1));
 		compte.setProfil(Profil.fromCode("etu"));
 		compteDao.save(compte);
@@ -53,18 +56,16 @@ public class GestionInscriptionStart {
 		compte = new Compte();
 		compte.setUsername("admin");
 		compte.setEmail("admin@unipro.sn");
-		compte.setPassword(passwordEnclair);
+		compte.setPassword(passwordHashed);
 		compte.setProfil(Profil.fromCode("adm"));
 		compteDao.save(compte);
 
 		// Test pour vérifier dans labqse si le username et le mot de passe sont
 		// correctes
-		compteDao.login("fallou.camara", passwordEnclair);
+		Compte compteConnecte = compteDao.login("fallou.camara", passwordEnclair);
 
-		// Test de la méthode de hachage des données
-		String passwordHashed = Encryptage.hashPassword(passwordEnclair);
 		// Vérification si le mode de passe haché correspond à celui en clair
-		Encryptage.checkPass(passwordEnclair, passwordHashed);
+		Encryptage.checkPass(passwordEnclair, compteConnecte.getPassword());
 	}
 
 }
