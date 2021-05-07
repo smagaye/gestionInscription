@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import sn.unipro.gestionInscription.modeles.Compte;
+import sn.unipro.gestionInscription.security.Encryptage;
 import sn.unipro.gestionInscription.util.JPAUtil;
 
 public class CompteDao {
@@ -31,10 +32,13 @@ public class CompteDao {
 	}
 
 	public Compte login(String username, String password) {
-		Query query = entityMgr.createQuery("FROM Compte where username=:username and password=:password");
+		Query query = entityMgr.createQuery("FROM Compte where username=:username");
 		query.setParameter("username", username);
-		query.setParameter("password", password);
-		return (Compte) query.getSingleResult();
+		Compte compteConnecte = (Compte) query.getSingleResult();
+		if (!Encryptage.checkPass(password, compteConnecte.getPassword())) {
+			compteConnecte = null;
+		}
+		return compteConnecte;
 	}
 
 }
