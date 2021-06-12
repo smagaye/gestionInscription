@@ -47,7 +47,7 @@ public class ConnexionBean {
 			session.setAttribute("compte", compte);
 			if (compte.getProfil() != null && compte.getProfil().equals(Profil.ADMIN)) {
 
-				FacesContext.getCurrentInstance().getExternalContext().redirect("../admin/home.xhtml");
+				FacesContext.getCurrentInstance().getExternalContext().redirect("../admin/comptes/liste.xhtml");
 
 			}
 			if (compte.getProfil() != null && compte.getProfil().equals(Profil.ETUDIANT)) {
