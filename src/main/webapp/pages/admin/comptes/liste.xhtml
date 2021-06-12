@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Accueil</title>
+	<link type="text/css"
+		href="${facesContext.externalContext.requestContextPath}/resources/css/style.css"
+		rel="stylesheet" />
+	<link type="image/x-icon"
+		href="${facesContext.externalContext.requestContextPath}/resources/images/favicon.ico"
+		rel="shortcut icon" />
+</h:head>
+
+<h:body>
+	<div class="card">
+		<h:form>
+			<p:growl id="messages" />
+
+			<p:menubar>
+				<p:submenu label="Administration" icon="pi pi-fw pi-file">
+					<p:submenu label="Comptes" icon="pi pi-fw pi-add">
+
+						<p:submenu action="#{menuView.listeComptes}" label="Liste"
+							icon="pi pi-fw pi-add" />
+
+					</p:submenu>
+
+					<p:submenu label="Etudiants" icon="pi pi-fw pi-add" />
+					<p:submenu label="Parametrages">
+						<p:submenu label="Niveau" />
+						<p:submenu label="Formations" />
+					</p:submenu>
+				</p:submenu>
+				<p:submenu label="Inscription" icon="pi pi-fw pi-pencil" />
+				<p:submenu label="Paiement" icon="pi pi-fw pi-bookmark" />
+				<p:divider layout="vertical" />
+
+				<f:facet name="options">
+					<p:button outcome="/deconnexion" value="Déconnecter"
+						icon="pi pi-fw pi-sign-out" styleClass="ui-button-info" />
+				</f:facet>
+			</p:menubar>
+		</h:form>
+	</div>
+
+	<h:form id="form">
+		<div class="card crud-demo">
+			<p:growl id="messages" showDetail="true" />
+
+			<p:toolbar>
+				<p:toolbarGroup>
+					<p:commandButton value="Nouveau" icon="pi pi-plus"
+						actionListener="#{crudView.openNew}"
+						update=":form:manage-compte-content"
+						oncomplete="PF('manageCompteDialog').show()"
+						styleClass="ui-button-success" style="margin-right: .5rem">
+						<p:resetInput target=":form:manage-compte-content" />
+					</p:commandButton>
+					<p:commandButton id="delete-comptes-button"
+						value="#{crudView.deleteButtonMessage}" icon="pi pi-trash"
+						actionListener="#{crudView.deleteSelectedComptes}"
+						styleClass="ui-button-danger"
+						disabled="#{!crudView.hasSelectedComptes()}" update="@this">
+						<p:confirm header="Confirmation"
+							message="Voulez-vous Supprimer le compte sélectionné ?"
+							icon="pi pi-exclamation-triangle" />
+					</p:commandButton>
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:fileUpload mode="simple" skinSimple="true" label="Import"
+						chooseIcon="pi pi-download" />
+					<p:commandButton value="Export" icon="pi pi-upload"
+						styleClass="ui-button-help" ajax="false">
+						<p:dataExporter type="pdf" target="dt-comptes"
+							fileName="comptes" />
+					</p:commandButton>
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<p:dataTable id="dt-comptes" widgetVar="dtComptes" var="compte"
+				value="#{crudView.comptes}" reflow="true"
+				styleClass="comptes-table" selection="#{crudView.selectedComptes}"
+				rowKey="#{compte.id}" paginator="true" rows="10"
+				rowSelectMode="add" paginatorPosition="bottom">
+				<f:facet name="header">
+					<div class="comptes-table-header">
+						<span style="font-weight: bold">COMPTES</span> <span
+							class="filter-container ui-input-icon-left"> <i
+							class="pi pi-search"></i> <p:inputText id="globalFilter"
+								onkeyup="PF('dtComptes').filter()" placeholder="Search" />
+						</span>
+
+					</div>
+				</f:facet>
+
+				<p:ajax event="rowSelect" update=":form:delete-comptes-button" />
+				<p:ajax event="rowUnselect" update=":form:delete-comptes-button" />
+				<p:ajax event="rowSelectCheckbox"
+					update=":form:delete-comptes-button" />
+				<p:ajax event="rowUnselectCheckbox"
+					update=":form:delete-comptes-button" />
+				<p:ajax event="toggleSelect" update=":form:delete-comptes-button" />
+
+				<p:column selectionMode="multiple" exportable="false"></p:column>
+				
+				<p:column headerText="Nom d'utilisateur" sortBy="#{compte.username}"
+					filterBy="#{compte.username}">
+					<h:outputText value="#{compte.username}" />
+				</p:column>
+				<p:column headerText="E-mail" sortBy="#{compte.email}"
+					filterBy="#{compte.email}">
+					<h:outputText value="#{compte.email}" />
+				</p:column>
+
+				<p:column headerText="Profil" sortBy="#{compte.profil}">
+					<h:outputText value="#{compte.profil}" style="font-weight: 700" />
+				</p:column>
+
+				<p:column exportable="false">
+					<p:commandButton icon="pi pi-pencil"
+						update=":form:manage-compte-content"
+						oncomplete="PF('manageCompteDialog').show()"
+						styleClass="edit-button rounded-button ui-button-success"
+						process="@this">
+						<f:setPropertyActionListener value="#{compte}"
+							target="#{crudView.selectedCompte}" />
+						<p:resetInput target=":form:manage-compte-content" />
+					</p:commandButton>
+					<p:commandButton class="ui-button-warning rounded-button"
+						icon="pi pi-trash" process="@this"
+						oncomplete="PF('deleteCompteDialog').show()">
+						<f:setPropertyActionListener value="#{compte}"
+							target="#{crudView.selectedCompte}" />
+					</p:commandButton>
+				</p:column>
+
+			</p:dataTable>
+
+			<p:dialog header="Compte Details" showEffect="fade" modal="true"
+				widgetVar="manageCompteDialog" responsive="true">
+				<p:outputPanel id="manage-compte-content" class="ui-fluid">
+					<p:outputPanel rendered="#{not empty crudView.selectedCompte}">
+						<div class="p-field">
+							<p:outputLabel for="username">Nom d'utilisateur</p:outputLabel>
+							<p:inputText id="username" value="#{crudView.selectedCompte.username}"
+								required="true" />
+						</div>
+						<div class="p-field">
+							<p:outputLabel for="email">E-mail</p:outputLabel>
+							<p:inputText id="email" value="#{crudView.selectedCompte.email}"
+								required="true" />
+						</div>
+
+						<div class="p-field">
+							<p:outputLabel for="profil">Profil</p:outputLabel>
+							<p:selectOneRadio id="profil"
+								value="#{crudView.selectedCompte.profil}" layout="responsive"
+								columns="2">
+								<f:selectItem itemLabel="Admin" itemValue="ADMIN" />
+								<f:selectItem itemLabel="USER" itemValue="ETUDIANT" />>
+							</p:selectOneRadio>
+						</div>
+					</p:outputPanel>
+				</p:outputPanel>
+
+				<f:facet name="footer">
+					<p:commandButton value="Enregistrer" icon="pi pi-check"
+						actionListener="#{crudView.saveCompte}"
+						update="manage-compte-content"
+						process="manage-compte-content @this" />
+					<p:commandButton value="Annulé" icon="pi pi-times"
+						onclick="PF('manageCompteDialog').hide()"
+						class="ui-button-secondary" />
+				</f:facet>
+			</p:dialog>
+
+			<p:confirmDialog widgetVar="deleteCompteDialog" showEffect="fade"
+				width="300" message="Suppression du compte?" header="Confirm"
+				severity="warn">
+				<p:commandButton value="Confirmer" icon="pi pi-check"
+					actionListener="#{crudView.deleteCompte}" process="@this"
+					oncomplete="PF('deleteCompteDialog').hide()" />
+				<p:commandButton value="Annuler" type="button"
+					styleClass="ui-button-secondary" icon="pi pi-times"
+					onclick="PF('deleteCompteDialog').hide()" />
+			</p:confirmDialog>
+
+			<p:confirmDialog global="true" showEffect="fade" width="300">
+				<p:commandButton value="Confirmer" type="button"
+					styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+				<p:commandButton value="Annuler" type="button"
+					styleClass="ui-confirmdialog-no ui-button-secondary"
+					icon="pi pi-times" />
+			</p:confirmDialog>
+		</div>
+	</h:form>
+
+</h:body>
+
+</html>
