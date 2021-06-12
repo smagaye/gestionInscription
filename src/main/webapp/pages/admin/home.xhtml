@@ -24,7 +24,12 @@
 
 			<p:menubar>
 				<p:submenu label="Administration" icon="pi pi-fw pi-file">
-					<p:submenu label="Comptes" icon="pi pi-fw pi-add" />
+					<p:submenu label="Comptes" icon="pi pi-fw pi-add">
+
+						<p:submenu action="#{menuView.listeComptes}" label="Liste" icon="pi pi-fw pi-add" />
+
+					</p:submenu>
+
 					<p:submenu label="Etudiants" icon="pi pi-fw pi-add" />
 					<p:submenu label="Parametrages">
 						<p:submenu label="Niveau" />

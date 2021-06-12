@@ -1,5 +1,7 @@
 package sn.unipro.gestionInscription.dao;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
@@ -39,6 +41,11 @@ public class CompteDao {
 			compteConnecte = null;
 		}
 		return compteConnecte;
+	}
+
+	public List<Compte> findAll() {
+		Query query = entityMgr.createQuery("FROM Compte");
+		return query.getResultList();
 	}
 
 }
